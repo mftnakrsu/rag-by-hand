@@ -132,10 +132,12 @@ def order(scores):
     return sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)
 
 
-def show(title, ranked, scores):
+def show(title, ranked, scores, decimals=3):
+    # RRF fusion scores are tiny (~0.03) and differ only in the 4th decimal, so
+    # the caller bumps `decimals` to 4 there to make the genuine ordering visible.
     print(f"\n{title}")
     for rank, i in enumerate(ranked[:3], start=1):
-        print(f"  {rank}. [{scores[i]:.3f}] {CORPUS[i][:54]}")
+        print(f"  {rank}. [{scores[i]:.{decimals}f}] {CORPUS[i][:54]}")
 
 
 # ---------------------------------------------------------------------------
@@ -154,7 +156,8 @@ if __name__ == "__main__":
     # Hybrid via RRF, the robust default.
     fused = rrf(dense_rank, sparse_rank)
     rrf_rank = [i for i, _ in fused.most_common()]
-    show("HYBRID via RRF:", rrf_rank, {i: fused[i] for i in range(len(CORPUS))})
+    # 4 decimals: RRF scores cluster near 0.03, so 3 decimals reads as a fake tie.
+    show("HYBRID via RRF:", rrf_rank, {i: fused[i] for i in range(len(CORPUS))}, decimals=4)
 
     # Hybrid via weighted sum, for comparison.
     w = weighted_fusion(dense, sparse, alpha=0.5)
@@ -177,9 +180,9 @@ if __name__ == "__main__":
 #   3. [1.059] Troubleshooting checkout and payment failures: common
 #
 # HYBRID via RRF:
-#   1. [0.032] Troubleshooting checkout and payment failures: common
-#   2. [0.032] The checkout page shows a generic error after the cust
-#   3. [0.032] Error E-4042: the authentication token has expired. Re
+#   1. [0.0323] Troubleshooting checkout and payment failures: common
+#   2. [0.0320] The checkout page shows a generic error after the cust
+#   3. [0.0318] Error E-4042: the authentication token has expired. Re
 #
 # HYBRID via weighted sum (alpha=0.5):
 #   1. [0.735] Troubleshooting checkout and payment failures: common

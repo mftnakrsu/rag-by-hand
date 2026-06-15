@@ -111,9 +111,11 @@ REFUSALS = ("don't know", "do not know", "cannot find", "couldn't find")
 
 
 def judge_faithfulness(question, context, answer):
-    """Score how grounded `answer` is in `context`. Tries a hosted judge if a
-    key is present (shown for shape); otherwise uses the transparent fallback."""
-    if os.getenv("OPENAI_API_KEY"):
+    """Score how grounded `answer` is in `context`. Tries a hosted judge ONLY when
+    you opt in by setting RAG_EVAL_USE_LLM_JUDGE=1 (shown for shape); otherwise it
+    uses the transparent fallback. The flag is explicit so running this file never
+    spends tokens by accident, even if an API key happens to be in your env."""
+    if os.getenv("RAG_EVAL_USE_LLM_JUDGE"):
         try:
             from openai import OpenAI
             client = OpenAI()
