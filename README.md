@@ -19,6 +19,8 @@ Both run offline — a real embedding model / LLM is used automatically when one
 available, and a transparent, deterministic fallback keeps every cell runnable
 otherwise. Part 1 is a concept-only notebook (the code starts in Part 2).
 
+![The RAG pipeline stage by stage — an indexing phase (document → chunk → embed → store) and a querying phase (retrieve → augment → generate), each stage mapped to the part that builds it](assets/architecture.svg)
+
 ## The series
 
 | Part | Topic | Code | Notebook | Essay |
@@ -56,6 +58,36 @@ offline, no API key required:
 ```bash
 pip install jupyter           # one-time, to run the notebooks
 jupyter notebook part-03-measuring-similarity/similarity.ipynb
+```
+
+Or run any notebook in your browser with zero setup — every notebook carries an
+**Open in Colab** badge at the top.
+
+## Example run
+
+`similarity.py` is pure NumPy and runs with no model, key, or network. You should see:
+
+```text
+Three tiny 2-D vectors (real embeddings just have more dimensions):
+  A = [3, 4]
+  B = [4, 3]
+  C = [6, 8]   (A doubled: same direction, twice as long)
+
+Pairwise scores -- three metrics, three different verdicts:
+  pair | euclidean |   dot |  cosine
+--------------------------------------
+   A,B |      1.41 |    24 |    0.96
+   A,C |      5.00 |    50 |    1.00
+   B,C |      5.39 |    48 |    0.96
+
+Top-k retrieval (the RAG ranking function):
+  query = [1.0, 0.0]
+  1. score=  1.00  chunk_0  same direction, far away
+  2. score=  0.97  chunk_2  near-aligned
+  3. score=  0.71  chunk_1  45 degrees off
+
+  Note chunk_0 ties for first despite being 9x longer than the query:
+  cosine ignores length and rewards pure direction -- the whole point.
 ```
 
 ## LLM providers
