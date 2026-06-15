@@ -1,3 +1,5 @@
+![rag-by-hand — a stack of documents on the left dissolves into an embedding vector space; its nearest points converge through a small pipeline into a single grounded answer card on the right](assets/hero.png)
+
 # rag-by-hand
 
 Build a Retrieval-Augmented Generation system from first principles — one runnable
