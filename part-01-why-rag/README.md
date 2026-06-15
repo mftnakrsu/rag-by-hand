@@ -5,6 +5,8 @@
 
 📖 **Read the full essay:** https://www.mefby.com/essays/why-rag-exists
 
+📓 **Prefer a notebook?** This chapter is also a (concept-only) notebook: [`why-rag.ipynb`](why-rag.ipynb) — or [open it in Colab](https://colab.research.google.com/github/mftnakrsu/rag-by-hand/blob/main/part-01-why-rag/why-rag.ipynb).
+
 A large language model is a brilliant reasoner with **no access to your information
 and no clock**. It answers confidently and wrong about your own documents and about
 anything recent. RAG (Retrieval-Augmented Generation) fixes that by handing the
