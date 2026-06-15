@@ -1,0 +1,15 @@
+# RAG from First Principles, Part 6: Build Your First RAG
+# Pinning is omitted for learning; pin versions for anything real.
+
+# Core: local embeddings + the math
+sentence-transformers
+numpy
+
+# Hosted LLM example (skip if you use the local Ollama version of generate())
+openai
+
+# Optional: the "real vector database" upgrade section
+chromadb
+
+# Optional: only for the local Ollama generation path
+requests
