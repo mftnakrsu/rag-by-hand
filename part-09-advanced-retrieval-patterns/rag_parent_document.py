@@ -29,8 +29,8 @@ from collections import Counter
 # ---------------------------------------------------------------------------
 PARENTS = [
     # parent 0
-    "Refunds. We accept refunds within 30 days of purchase, as long as the item "
-    "is unused and in its original packaging. To start a return, email "
+    "Refunds. We accept refunds within 30 days of purchase. To qualify, the item "
+    "must be unused and in its original packaging. To start a return, email "
     "support@example.com with your order number. Once we receive the item, your "
     "refund is processed back to the original payment method within five business "
     "days. Shipping fees are not refundable.",
@@ -122,7 +122,7 @@ def retrieve_small_return_big(query, k_children=3):
 #         search hands the model versus what parent-document hands it.
 # ---------------------------------------------------------------------------
 if __name__ == "__main__":
-    query = "can I get my money back if the box is already open?"
+    query = "how long until I get my refund after sending the item back?"
     # k_children=1 keeps the before/after crisp: one sharp child, one rich parent.
     # Raise it and retrieve_small_return_big de-duplicates parents for you, which
     # is the seed of "auto-merging" retrieval discussed in the prose.
@@ -143,27 +143,28 @@ if __name__ == "__main__":
 # ---------------------------------------------------------------------------
 # Expected output (keyword-overlap fallback; deterministic):
 #
-# Query: 'can I get my money back if the box is already open?'
+# Query: 'how long until I get my refund after sending the item back?'
 #
 # NAIVE  (search small, return small)  ->  the LLM receives:
-#   [0.158] Once we receive the item, your refund is processed back to the
+#   [0.211] Once we receive the item, your refund is processed back to the
 #           original payment method within five business days.
 #
 # PARENT-DOCUMENT  (search small, return big)  ->  the LLM receives:
-#   Refunds. We accept refunds within 30 days of purchase, as long as the item is
-#   unused and in its original packaging. To start a return, email
+#   Refunds. We accept refunds within 30 days of purchase. To qualify, the item
+#   must be unused and in its original packaging. To start a return, email
 #   support@example.com with your order number. Once we receive the item, your
 #   refund is processed back to the original payment method within five business
 #   days. Shipping fees are not refundable.
 #
 # Same sharp match. Far more context to answer from.
 #
-# The naive result matched a single true sentence but starves the model: it never
-# learns about the 30-day window or the "unused / original packaging" condition
-# that actually decides this question. The parent hands over the whole refund
-# section. We searched the child; we served the parent. That is the entire
-# pattern. Swap in the real sentence-transformers model and a *different* child
-# may win the match (semantics over keyword overlap), but it still lives inside
-# parent 0, so the parent that comes back is identical. Which child you search is
-# an implementation detail; which parent you serve is the answer.
+# The naive result matched a single true sentence about timing but starves the
+# model: that sentence never mentions the 30-day window or the "unused / original
+# packaging" condition that a returns question can hinge on. The parent hands over
+# the whole refund section. We searched the child; we served the parent. That is
+# the entire pattern. Swap in the real sentence-transformers model and the match
+# is sharper still (cosine ~0.855 on the very same timing sentence); on a
+# different query another child might win, but it still lives inside parent 0, so
+# the parent that comes back is identical. Which child you search is an
+# implementation detail; which parent you serve is the answer.
 # ---------------------------------------------------------------------------
