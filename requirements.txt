@@ -1,0 +1,17 @@
+# rag-by-hand — dependencies, grouped by part.
+# Pinning is omitted for learning; pin versions for anything real.
+
+# The math throughout (Parts 2-9). These parts run offline, no API key.
+numpy
+
+# Part 2 (real embeddings) and Parts 6, 8 (local models): sentence-transformers.
+# Parts 2-5 fall back to a transparent pure-Python stand-in if it's absent.
+sentence-transformers
+
+# Part 6 generation — pick ONE provider (all optional):
+openai          # hosted; the default generate() in rag_app.py
+anthropic       # hosted; the Claude variant of generate()
+requests        # only for the local Ollama generation path
+
+# Part 6 "real vector database" upgrade section:
+chromadb
