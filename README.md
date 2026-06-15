@@ -5,16 +5,17 @@
 Build a Retrieval-Augmented Generation system from first principles — one runnable
 Python file per concept, no frameworks hiding the moving parts. Companion code for
 the **RAG from First Principles** series on
-[mefby.com](https://www.mefby.com/essays): a 12-part core plus a 2026 **Frontier Track**.
+[mefby.com](https://www.mefby.com/essays): an 18-part arc, a 12-part core plus a 2026 **Frontier Track**.
 
 > "Build it by hand, understand every line."
 
 Each folder maps 1:1 to an essay. The early parts (2–5) are pure NumPy / standard
 library and run offline with no API key. Part 6 assembles them into a working
 "chat with your documents" app; Parts 7–12 layer on hybrid retrieval, reranking,
-advanced patterns, evaluation, and production hardening. Parts 13–15 are a 2026
+advanced patterns, evaluation, and production hardening. Parts 13–18 are a 2026
 **Frontier Track** continuing past the finale: late-interaction retrieval
-(ColBERT to ColPali), context-aware chunking, and adaptive routing by query complexity.
+(ColBERT to ColPali), context-aware chunking, and adaptive routing by query
+complexity, then RAG vs long-context vs CAG, securing RAG, and structured/SQL RAG.
 
 Every part ships **two ways to learn the same concept**: a single runnable `.py`
 (the whole idea, top to bottom) and a step-by-step **Jupyter notebook** (`.ipynb`)
@@ -44,8 +45,11 @@ otherwise. Part 1 is a concept-only notebook (the code starts in Part 2).
 | 13 | Late-Interaction Retrieval | [late_interaction.py](part-13-late-interaction/late_interaction.py) | [late_interaction.ipynb](part-13-late-interaction/late_interaction.ipynb) | [read](https://www.mefby.com/essays/late-interaction-retrieval) |
 | 14 | Context-Aware Chunking | [context_aware_chunking.py](part-14-context-aware-chunking/context_aware_chunking.py) | [context_aware_chunking.ipynb](part-14-context-aware-chunking/context_aware_chunking.ipynb) | [read](https://www.mefby.com/essays/context-aware-chunking) |
 | 15 | Adaptive RAG | [adaptive_rag.py](part-15-adaptive-rag/adaptive_rag.py) | [adaptive_rag.ipynb](part-15-adaptive-rag/adaptive_rag.ipynb) | [read](https://www.mefby.com/essays/adaptive-rag) |
+| 16 | RAG vs Long-Context vs CAG | [rag_vs_long_context.py](part-16-rag-vs-long-context/rag_vs_long_context.py) | [rag_vs_long_context.ipynb](part-16-rag-vs-long-context/rag_vs_long_context.ipynb) | [read](https://www.mefby.com/essays/rag-vs-long-context) |
+| 17 | Securing RAG | [rag_security.py](part-17-rag-security/rag_security.py) | [rag_security.ipynb](part-17-rag-security/rag_security.ipynb) | [read](https://www.mefby.com/essays/rag-security) |
+| 18 | Structured and SQL RAG | [sql_rag.py](part-18-structured-sql-rag/sql_rag.py) | [sql_rag.ipynb](part-18-structured-sql-rag/sql_rag.ipynb) | [read](https://www.mefby.com/essays/structured-sql-rag) |
 
-Parts 13–15 are the **Frontier Track** (2026 advances), a continuation past the Part 12 finale.
+Parts 13–18 are the **Frontier Track** (2026 advances), a continuation past the Part 12 finale.
 Part 11 also ships a second runnable, [`long_context_vs_rag.py`](part-11-evaluating-rag/long_context_vs_rag.py)
 ([notebook](part-11-evaluating-rag/long_context_vs_rag.ipynb)): a leakage-free, fictional-corpus
 long-context-LLM vs RAG head-to-head.

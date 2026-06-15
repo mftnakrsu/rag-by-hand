@@ -24,7 +24,7 @@ python part-11-evaluating-rag/rag_eval.py        # runs offline — no API key
 Prefer it step by step? Open `rag_eval.ipynb` in Jupyter, or click **Open in Colab** above.
 
 ## Offline by design
-Pure standard library — no network, no model download, no API key. Context recall uses an id-based golden-chunk stand-in, and faithfulness uses a transparent deterministic fallback for the LLM judge (it shows the real call shape if `OPENAI_API_KEY` is set, but always falls through to the same output). The payoff is the two-refusals row: two identical "I don't know" answers that one metric pulls apart into *fix the retriever* versus *leave it alone*.
+Pure standard library — no network, no model download, no API key. Context recall uses an id-based golden-chunk stand-in, and faithfulness uses a transparent deterministic fallback for the LLM judge (it shows the real call shape, gated behind an explicit `RAG_EVAL_USE_LLM_JUDGE=1` opt-in so running it never spends tokens by accident, but always falls through to the same output). The payoff is the two-refusals row: two identical "I don't know" answers that one metric pulls apart into *fix the retriever* versus *leave it alone*.
 
 ---
 ← [Part 10 — Advanced RAG Architectures](../part-10-advanced-architectures/) · [Series index](../) · [Part 12 — RAG in Production](../part-12-rag-in-production/) →
