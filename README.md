@@ -5,17 +5,18 @@
 Build a Retrieval-Augmented Generation system from first principles — one runnable
 Python file per concept, no frameworks hiding the moving parts. Companion code for
 the **RAG from First Principles** series on
-[mefby.com](https://www.mefby.com/essays): an 18-part arc, a 12-part core plus a 2026 **Frontier Track**.
+[mefby.com](https://www.mefby.com/essays): a 19-part arc, a 12-part core plus a 2026 **Frontier Track**.
 
 > "Build it by hand, understand every line."
 
 Each folder maps 1:1 to an essay. The early parts (2–5) are pure NumPy / standard
 library and run offline with no API key. Part 6 assembles them into a working
 "chat with your documents" app; Parts 7–12 layer on hybrid retrieval, reranking,
-advanced patterns, evaluation, and production hardening. Parts 13–18 are a 2026
+advanced patterns, evaluation, and production hardening. Parts 13–19 are a 2026
 **Frontier Track** continuing past the finale: late-interaction retrieval
 (ColBERT to ColPali), context-aware chunking, and adaptive routing by query
-complexity, then RAG vs long-context vs CAG, securing RAG, and structured/SQL RAG.
+complexity, then RAG vs long-context vs CAG, securing RAG, structured/SQL RAG, and
+building a RAG agent by hand.
 
 Every part ships **two ways to learn the same concept**: a single runnable `.py`
 (the whole idea, top to bottom) and a step-by-step **Jupyter notebook** (`.ipynb`)
@@ -48,8 +49,9 @@ otherwise. Part 1 is a concept-only notebook (the code starts in Part 2).
 | 16 | RAG vs Long-Context vs CAG | [rag_vs_long_context.py](part-16-rag-vs-long-context/rag_vs_long_context.py) | [rag_vs_long_context.ipynb](part-16-rag-vs-long-context/rag_vs_long_context.ipynb) | [read](https://www.mefby.com/essays/rag-vs-long-context) |
 | 17 | Securing RAG | [rag_security.py](part-17-rag-security/rag_security.py) | [rag_security.ipynb](part-17-rag-security/rag_security.ipynb) | [read](https://www.mefby.com/essays/rag-security) |
 | 18 | Structured and SQL RAG | [sql_rag.py](part-18-structured-sql-rag/sql_rag.py) | [sql_rag.ipynb](part-18-structured-sql-rag/sql_rag.ipynb) | [read](https://www.mefby.com/essays/structured-sql-rag) |
+| 19 | Building a RAG Agent | [rag_agent.py](part-19-rag-agent/rag_agent.py) | [rag_agent.ipynb](part-19-rag-agent/rag_agent.ipynb) | [read](https://www.mefby.com/essays/rag-agent) |
 
-Parts 13–18 are the **Frontier Track** (2026 advances), a continuation past the Part 12 finale.
+Parts 13–19 are the **Frontier Track** (2026 advances), a continuation past the Part 12 finale.
 Part 11 also ships a second runnable, [`long_context_vs_rag.py`](part-11-evaluating-rag/long_context_vs_rag.py)
 ([notebook](part-11-evaluating-rag/long_context_vs_rag.ipynb)): a leakage-free, fictional-corpus
 long-context-LLM vs RAG head-to-head.
