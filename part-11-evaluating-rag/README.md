@@ -26,5 +26,18 @@ Prefer it step by step? Open `rag_eval.ipynb` in Jupyter, or click **Open in Col
 ## Offline by design
 Pure standard library — no network, no model download, no API key. Context recall uses an id-based golden-chunk stand-in, and faithfulness uses a transparent deterministic fallback for the LLM judge (it shows the real call shape, gated behind an explicit `RAG_EVAL_USE_LLM_JUDGE=1` opt-in so running it never spends tokens by accident, but always falls through to the same output). The payoff is the two-refusals row: two identical "I don't know" answers that one metric pulls apart into *fix the retriever* versus *leave it alone*.
 
+## Bonus — long-context vs RAG, head to head
+
+A second runnable experiment that pairs with the essay's *"long-context models vs RAG"* section. It builds a **leakage-free synthetic corpus** (a fictional "Starlight Academy" world the model cannot have memorized) with planted needles, then pits an LLM answering from the *whole* context window against **top-k RAG** over the same material — so you can see for yourself when stuffing everything in beats retrieving, and when it does not.
+
+- **`long_context_vs_rag.py`** — the runnable head-to-head: synthetic corpus, needle questions, both strategies, a side-by-side score. Offline by design.
+- **`long_context_vs_rag.ipynb`** — the same experiment, step by step.
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mftnakrsu/rag-by-hand/blob/main/part-11-evaluating-rag/long_context_vs_rag.ipynb)
+
+```bash
+python part-11-evaluating-rag/long_context_vs_rag.py   # the bonus long-context-vs-RAG experiment, offline
+```
+
 ---
 ← [Part 10 — Advanced RAG Architectures](../part-10-advanced-architectures/) · [Series index](../) · [Part 12 — RAG in Production](../part-12-rag-in-production/) →
