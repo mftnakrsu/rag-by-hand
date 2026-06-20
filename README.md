@@ -44,8 +44,10 @@ otherwise. Part 1 is a concept-only notebook (the code starts in Part 2).
 | 13 | Late-Interaction Retrieval | [late_interaction.py](part-13-late-interaction/late_interaction.py) | [late_interaction.ipynb](part-13-late-interaction/late_interaction.ipynb) | [read](https://www.mefby.com/essays/late-interaction-retrieval) |
 | 14 | Context-Aware Chunking | [context_aware_chunking.py](part-14-context-aware-chunking/context_aware_chunking.py) | [context_aware_chunking.ipynb](part-14-context-aware-chunking/context_aware_chunking.ipynb) | [read](https://www.mefby.com/essays/context-aware-chunking) |
 | 15 | Adaptive RAG | [adaptive_rag.py](part-15-adaptive-rag/adaptive_rag.py) | [adaptive_rag.ipynb](part-15-adaptive-rag/adaptive_rag.ipynb) | [read](https://www.mefby.com/essays/adaptive-rag) |
+| 16 | Building a RAG Agent | [rag_agent.py](part-16-rag-agent/rag_agent.py) | [rag_agent.ipynb](part-16-rag-agent/rag_agent.ipynb) | [read](https://www.mefby.com/essays/rag-agent) |
 
 Parts 13–15 are the **Frontier Track** (2026 advances), a continuation past the Part 12 finale.
+Part 16 opens an **Applied Track** that builds the architectures the earlier parts only toured, beginning with a reason/act/observe agent.
 Part 11 also ships a second runnable, [`long_context_vs_rag.py`](part-11-evaluating-rag/long_context_vs_rag.py)
 ([notebook](part-11-evaluating-rag/long_context_vs_rag.ipynb)): a leakage-free, fictional-corpus
 long-context-LLM vs RAG head-to-head.
