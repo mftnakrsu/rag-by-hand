@@ -3,14 +3,14 @@
 # not exact pins. Pin exact versions for anything you actually ship.
 
 # Core: local embeddings + the math
-sentence-transformers>=2.2,<4
+sentence-transformers>=2.2,<7
 numpy>=1.24
 
 # Hosted LLM example (skip if you use the local Ollama version of generate())
-openai>=1.0,<2
+openai>=1.0,<4
 
 # Optional: the "real vector database" upgrade section
-chromadb>=0.4,<0.7
+chromadb>=0.4,<2
 
 # Optional: only for the local Ollama generation path
 requests>=2.28
