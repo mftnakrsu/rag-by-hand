@@ -111,16 +111,16 @@ REFUSALS = ("don't know", "do not know", "cannot find", "couldn't find")
 
 
 def judge_faithfulness(question, context, answer):
-    """Score how grounded `answer` is in `context`. Tries a hosted judge ONLY when
-    you opt in by setting RAG_EVAL_USE_LLM_JUDGE=1 (shown for shape); otherwise it
-    uses the transparent fallback. The flag is explicit so running this file never
-    spends tokens by accident, even if an API key happens to be in your env."""
+    """Score how grounded `answer` is in `context`. Set RAG_EVAL_USE_LLM_JUDGE=1
+    to call a hosted judge (shown for shape); by default it uses the transparent,
+    cost-free fallback, so simply running this file never spends tokens even if an
+    OPENAI_API_KEY happens to be exported."""
     if os.getenv("RAG_EVAL_USE_LLM_JUDGE"):
         try:
             from openai import OpenAI
             client = OpenAI()
             client.chat.completions.create(            # the real call shape
-                model="gpt-4o-mini",                   # a cheap judge; check names
+                model="gpt-6-luna",                    # successor to gpt-4o-mini; check current names
                 messages=[{"role": "user",
                            "content": JUDGE_PROMPT.format(context=context, answer=answer)}],
                 temperature=0,
@@ -211,6 +211,33 @@ def diagnose(recall, faith, refused, out_of_scope):
 
 
 # ---------------------------------------------------------------------------
+# Validating the judge: Cohen's kappa.
+# A scaled metric is only trustworthy if the LLM judge agrees with humans on
+# the hard calls, not just the easy ones. Hand-label a sample, have the judge
+# label the same sample, and compute chance-corrected agreement. Raw agreement
+# flatters: if most cases are "faithful", a judge that always says "faithful"
+# scores high while having learned nothing. Kappa subtracts the agreement you
+# would expect by chance, so it only rewards tracking the genuine disagreements.
+#   kappa = (p_observed - p_chance) / (1 - p_chance)
+# Rough reading: > ~0.6 is decent agreement; below that, do not trust the judge
+# on this task yet (re-prompt it, or fall back to more human labels).
+# ---------------------------------------------------------------------------
+def cohen_kappa(human, judge):
+    """Cohen's kappa for two binary label lists (1 = faithful, 0 = not).
+    Pure stdlib, no dependencies."""
+    n = len(human)
+    if n == 0 or n != len(judge):
+        raise ValueError("label lists must be non-empty and equal length")
+    observed = sum(1 for h, j in zip(human, judge) if h == j) / n
+    # chance agreement from each rater's marginal rate of saying "faithful"
+    ph, pj = sum(human) / n, sum(judge) / n
+    chance = ph * pj + (1 - ph) * (1 - pj)
+    if chance == 1.0:                         # both raters constant and identical
+        return 1.0
+    return (observed - chance) / (1 - chance)
+
+
+# ---------------------------------------------------------------------------
 if __name__ == "__main__":
     print("Offline eval over the store-policy app  (k=3 retrieval)\n")
     header = f"{'question':46}  {'recall':>6}  {'faith':>6}   verdict"
@@ -238,6 +265,23 @@ if __name__ == "__main__":
         "diagnosis you cannot make by eyeballing answers, and the reason to measure."
     )
 
+    # -----------------------------------------------------------------------
+    # Validating the judge against human labels on a 10-case sample.
+    # 1 = faithful, 0 = not. The judge agrees on every case EXCEPT one (index
+    # 6), so raw agreement is high (9/10) but kappa is lower, because most cases
+    # are "faithful" and chance alone would already get a lot of them right.
+    # -----------------------------------------------------------------------
+    human_labels = [1, 1, 0, 1, 1, 1, 0, 1, 1, 1]
+    judge_labels = [1, 1, 0, 1, 1, 1, 1, 1, 1, 1]   # disagrees on case 6
+    raw = sum(1 for h, j in zip(human_labels, judge_labels) if h == j) / len(human_labels)
+    kappa = cohen_kappa(human_labels, judge_labels)
+    print(
+        f"\nJudge validation on 10 hand-labelled cases:"
+        f"\n  raw agreement = {raw:.2f}   Cohen's kappa = {kappa:.2f}"
+        f"\n  (raw agreement flatters; kappa is the number to trust."
+        f" Below ~0.6, re-prompt the judge or add human labels.)"
+    )
+
 # ---------------------------------------------------------------------------
 # Expected output (deterministic):
 #
@@ -255,4 +299,8 @@ if __name__ == "__main__":
 # refusal (nothing to retrieve), while row 3 is a retrieval MISS (the answer
 # was in the corpus, lexical search just couldn't find it). That is the
 # diagnosis you cannot make by eyeballing answers, and the reason to measure.
+#
+# Judge validation on 10 hand-labelled cases:
+#   raw agreement = 0.90   Cohen's kappa = 0.62
+#   (raw agreement flatters; kappa is the number to trust. Below ~0.6, re-prompt the judge or add human labels.)
 # ---------------------------------------------------------------------------
