@@ -120,7 +120,7 @@ def judge_faithfulness(question, context, answer):
             from openai import OpenAI
             client = OpenAI()
             client.chat.completions.create(            # the real call shape
-                model="gpt-4o-mini",                   # a cheap judge; check names
+                model="gpt-6-luna",                    # successor to gpt-4o-mini; check current names
                 messages=[{"role": "user",
                            "content": JUDGE_PROMPT.format(context=context, answer=answer)}],
                 temperature=0,
