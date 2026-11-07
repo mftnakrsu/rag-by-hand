@@ -387,7 +387,7 @@ def generate(prompt):
     from openai import OpenAI
     client = OpenAI()                               # reads OPENAI_API_KEY
     resp = client.chat.completions.create(
-        model="gpt-4o-mini",                        # a small, cheap chat model; check names
+        model="gpt-6-luna",                         # successor to gpt-4o-mini; check current names
         messages=[{"role": "user", "content": prompt}],
         temperature=0,                              # deterministic, not creative
     )
@@ -449,7 +449,7 @@ def controller(goal, transcript_steps):
 
     # --- No-retrieval branch: arithmetic. Compute once, then finish. ---------
     pct = _PERCENT_RE.search(g)
-    if pct or ("%" in g and "of" in g) or "calculate" in g:
+    if pct:  # only enter when the percent pattern actually matched
         if n == 0:
             rate, base = pct.group(1), pct.group(2)
             expr = f"{float(rate) / 100} * {base}"
