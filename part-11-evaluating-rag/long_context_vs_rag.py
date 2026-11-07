@@ -106,6 +106,7 @@ size, query type, and budget. Self-Route (arXiv 2407.16833) and LaRA
 """
 
 import re
+from functools import lru_cache
 
 import numpy as np
 
@@ -186,9 +187,12 @@ def count_tokens(text: str) -> int:
 DIM = 256
 
 
+@lru_cache(maxsize=None)
 def embed(text: str) -> np.ndarray:
     """Deterministic hashing embedder: sum a stable pseudo-random direction per
-    token, then L2-normalize. No model, no network -- same shape as Part 2."""
+    token, then L2-normalize. No model, no network -- same shape as Part 2.
+    Cached so each unique chunk is embedded once across all queries, the same
+    embed-once-store discipline as the Part 6 app (never re-embed per query)."""
     toks = tokenize(text)
     vec = np.zeros(DIM)
     for tok in toks:
