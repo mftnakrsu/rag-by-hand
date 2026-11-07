@@ -204,7 +204,7 @@ def grade_real(query, retrieved):
         f"Question: {query}\n\nContext:\n{context}\n\nGrade:"
     )
     resp = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-6-luna",                         # successor to gpt-4o-mini; check current names
         messages=[{"role": "user", "content": prompt}],
         temperature=0,
     )
@@ -365,7 +365,7 @@ def generate_real(prompt):
     from openai import OpenAI
     client = OpenAI()                               # reads OPENAI_API_KEY
     resp = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-6-luna",                         # successor to gpt-4o-mini; check current names
         messages=[{"role": "user", "content": prompt}],
         temperature=0,                              # grounded, not creative
     )
